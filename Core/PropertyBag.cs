@@ -323,6 +323,11 @@ namespace Microsoft.Exchange.WebServices.Data
             {
                 if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion)
                 {
+                    var cc = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
+                    if (cc.Name == "InternalLoadFromXml")
+                    {
+                        return;
+                    }
                     throw new ServiceVersionException(
                         string.Format(
                             Strings.PropertyIncompatibleWithRequestVersion,
