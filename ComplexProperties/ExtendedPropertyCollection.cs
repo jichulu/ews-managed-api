@@ -154,7 +154,12 @@ namespace Microsoft.Exchange.WebServices.Data
             if (this.TryGetProperty(propertyDefinition, out extendedProperty))
             {
                 // Verify that the type parameter and property definition's type are compatible.
-                if (!typeof(T).IsAssignableFrom(propertyDefinition.Type))
+                var targetType = typeof(T);
+                if (MapiTypeConverter.IsArrayType(propertyDefinition.MapiType) && typeof(T).IsArray)
+                {
+                    targetType = typeof(T).GetElementType();
+                }
+                if (!targetType.IsAssignableFrom(propertyDefinition.Type))
                 {
                     string errorMessage = string.Format(
                         Strings.PropertyDefinitionTypeMismatch,
