@@ -107,6 +107,15 @@ namespace Microsoft.Exchange.WebServices.Data
             get { return this.responseType; }
         }
 
+        internal override bool GetIsTimeZoneHeaderRequired(bool isUpdateOperation)
+        {
+            if (isUpdateOperation)
+            {
+                return base.GetIsTimeZoneHeaderRequired(isUpdateOperation);
+            }
+            return true;
+        }
+
         #region Properties
 
         /// <summary>
